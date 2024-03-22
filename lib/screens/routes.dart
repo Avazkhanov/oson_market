@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:oson_market/screens/auth/login/login_screen.dart';
 import 'package:oson_market/screens/auth/signup/sign_up_screen.dart';
 import 'package:oson_market/screens/home/home_screen.dart';
+import 'package:oson_market/screens/my_adds/my_adds_screen.dart';
+import 'package:oson_market/screens/product_add/product_add_screen.dart';
 import 'package:oson_market/screens/profile/profile_screen.dart';
 
 import 'package:oson_market/screens/splash/splash_screen.dart';
@@ -24,6 +26,10 @@ class AppRoutes {
         return navigate(const BottomBar());
       case RoutesNames.profile:
         return navigate(const ProfileScreen());
+      case RoutesNames.productAdd:
+        return navigate(const ProductAddScreen());
+      case RoutesNames.myAdds:
+        return navigate(MyAddsScreen(userId: settings.arguments as String));
       default:
         return navigate(
           const Scaffold(
@@ -46,4 +52,6 @@ class RoutesNames {
   static const String home = '/home';
   static const String profile = '/profile';
   static const String bottomAppBar = '/bottom_app_bar';
+  static const String productAdd = '/product_add';
+  static const String myAdds = '/my_add';
 }

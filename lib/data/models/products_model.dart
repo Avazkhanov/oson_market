@@ -1,10 +1,12 @@
 class ProductModel {
   final String docId;
+  final String userId;
   final String productName;
   final String productDescription;
   final double price;
   final String imageUrl;
   final String categoryId;
+  final String monetaryUnit;
 
   ProductModel({
     required this.price,
@@ -13,6 +15,8 @@ class ProductModel {
     required this.docId,
     required this.productDescription,
     required this.categoryId,
+    required this.userId,
+    required this.monetaryUnit,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -22,7 +26,9 @@ class ProductModel {
       categoryId: json["category_id"] as String? ?? "",
       productName: json["product_name"] as String? ?? "",
       productDescription: json["product_description"] as String? ?? "",
+      userId: json["user_id"] as String ?? "",
       price: json["price"] as double? ?? 0.0,
+      monetaryUnit: json["monetary_unit"] as String ?? "",
     );
   }
 
@@ -34,6 +40,8 @@ class ProductModel {
       "product_description": productDescription,
       "price": price,
       "category_id": categoryId,
+      "user_id": userId,
+      "monetary_unit": monetaryUnit
     };
   }
 
@@ -44,6 +52,19 @@ class ProductModel {
       "product_description": productDescription,
       "price": price,
       "category_id": categoryId,
+      "monetary_unit": monetaryUnit
     };
+  }
+}
+
+extension CanInsert on ProductModel {
+  bool canInsertProduct() {
+    return productName.isNotEmpty &&
+        productDescription.isNotEmpty &&
+        price > 0 &&
+        monetaryUnit.isNotEmpty &&
+        imageUrl.isNotEmpty &&
+        categoryId.isNotEmpty &&
+        userId.isNotEmpty;
   }
 }

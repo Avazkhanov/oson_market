@@ -16,5 +16,5 @@ class AppImages {
 
 
   ///lottie
-
+  static const empty = "assets/lottie/empty.json";
 }

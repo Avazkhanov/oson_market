@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,9 @@ import 'package:oson_market/screens/routes.dart';
 import 'package:oson_market/utils/theme/theme_data.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';
 import 'package:oson_market/view_models/bottom_view_model.dart';
+import 'package:oson_market/view_models/my_adds_view_model.dart';
+import 'package:oson_market/view_models/product_view_model.dart';
+import 'package:oson_market/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -16,6 +20,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  User? user = FirebaseAuth.instance.currentUser;
   runApp(
     MultiProvider(
       providers: [
@@ -24,6 +29,15 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => BottomViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductsViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MyAddsViewModel(userID: user!.uid),
         ),
       ],
       child: const MyApp(),

@@ -26,7 +26,8 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  registerUser(BuildContext context, {
+  registerUser(
+    BuildContext context, {
     required String email,
     required String password,
     required String username,
@@ -36,7 +37,7 @@ class AuthViewModel extends ChangeNotifier {
       try {
         _notify(true);
         UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -64,7 +65,8 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  login(BuildContext context, {
+  login(
+    BuildContext context, {
     required String email,
     required String password,
   }) async {
@@ -95,21 +97,6 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  logout(BuildContext context) async {
-    _notify(true);
-    await FirebaseAuth.instance.signOut();
-    _notify(false);
-    if (!context.mounted) return;
-    Navigator.pushReplacementNamed(context, RoutesNames.login);
-  }
-
-  updateUsername(String username, BuildContext context) async {
-    _notify(true);
-    await FirebaseAuth.instance.currentUser!.updateDisplayName(username);
-    Navigator.pop(context);
-    _notify(false);
-  }
-
   updateImageUrl(String imagePath) async {
     _notify(true);
     try {
@@ -130,10 +117,10 @@ class AuthViewModel extends ChangeNotifier {
     _notify(true);
 
     final GoogleSignInAccount? googleUser =
-    await GoogleSignIn(clientId: clientId).signIn();
+        await GoogleSignIn(clientId: clientId).signIn();
 
     final GoogleSignInAuthentication? googleAuth =
-    await googleUser?.authentication;
+        await googleUser?.authentication;
 
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
@@ -141,7 +128,7 @@ class AuthViewModel extends ChangeNotifier {
     );
 
     UserCredential userCredential =
-    await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
     _notify(false);
     if (userCredential.user != null) {
       Navigator.pushReplacementNamed(context, RoutesNames.bottomAppBar);
@@ -153,8 +140,8 @@ class AuthViewModel extends ChangeNotifier {
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential = FacebookAuthProvider
-        .credential(loginResult.accessToken!.token);
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);

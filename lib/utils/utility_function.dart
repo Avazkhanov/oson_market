@@ -4,24 +4,26 @@ import 'package:oson_market/utils/styles/app_style.dart';
 showSneckbar({required BuildContext context, required String message}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.red,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(16), topLeft: Radius.circular(16))),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(16),
+          topLeft: Radius.circular(16),
+        ),
+      ),
       content: Text(
         message,
         textAlign: TextAlign.center,
-        style: AppStyle.interBold
-            .copyWith(fontSize: 32, color: Colors.white),
+        style: AppStyle.interBold.copyWith(fontSize: 32, color: Colors.white),
       ),
     ),
   );
 }
 
 showErrorForRegister(
-    String code,
-    BuildContext context,
-    ) {
+  String code,
+  BuildContext context,
+) {
   if (code == 'weak-password') {
     debugPrint('The password provided is too weak.');
     if (!context.mounted) return;
@@ -40,9 +42,9 @@ showErrorForRegister(
 }
 
 showErrorForLogin(
-    String code,
-    BuildContext context,
-    ) {
+  String code,
+  BuildContext context,
+) {
   if (code == 'wrong-password') {
     debugPrint('The password provided is wrong.');
     if (!context.mounted) return;

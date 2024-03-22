@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oson_market/screens/diologs/alert_dialog.dart';
 import 'package:oson_market/screens/diologs/change_password.dart';
-import 'package:oson_market/utils/styles/app_style.dart';
+import 'package:oson_market/screens/routes.dart';
+import 'package:oson_market/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../view_models/auth_view_model.dart';
@@ -16,9 +19,15 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
+  void initState() {
+    Future.microtask(() => context.watch<ProfileViewModel>().init());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     User? user = context.watch<AuthViewModel>().getUser;
-    var provider = context.watch<AuthViewModel>();
+    var provider = context.watch<ProfileViewModel>();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -27,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              provider.logout(context);
+              showDeleteAlert(context: context, isLogOut: true,docId: "");
             },
             icon: Icon(Icons.logout, size: 30.sp),
           ),
@@ -42,9 +51,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(50.r),
                     child: Image.network(user!.photoURL!),
                   )
-                : Icon(Icons.person),
+                : const Icon(Icons.account_circle),
             title: Text(user?.displayName ?? "",
-                style: AppStyle.poppinsBold.copyWith(fontSize: 18.sp)),
+                style: Theme.of(context).textTheme.titleLarge),
             subtitle: Text("*******${user?.email?.substring(10)}"),
           ),
           ListTile(
@@ -53,7 +62,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
             title: Text(
               "Change Name",
-              style: AppStyle.poppinsBold.copyWith(fontSize: 18.sp),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            trailing: Icon(Icons.arrow_forward_ios_rounded, size: 20.sp),
+          ),
+          ListTile(
+            title: Text("Use dark Mode",
+                style: Theme.of(context).textTheme.titleLarge),
+            onTap: () {
+              provider.setTheme(value: !provider.isDark, context: context);
+            },
+            trailing: CupertinoSwitch(
+              value: provider.isDark,
+              onChanged: (v) {
+                provider.setTheme(value: v, context: context);
+              },
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, RoutesNames.myAdds,arguments: user!.uid);
+            },
+            title: Text(
+              "My adds",
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             trailing: Icon(Icons.arrow_forward_ios_rounded, size: 20.sp),
           )

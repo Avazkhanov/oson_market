@@ -11,13 +11,15 @@ class ProductsViewModel extends ChangeNotifier {
 
   List<ProductModel> categoryProduct = [];
 
+  String? dropdownValue;
+
   Stream<List<ProductModel>> listenProducts() => FirebaseFirestore.instance
       .collection(AppConstants.products)
       .snapshots()
       .map(
         (event) =>
-        event.docs.map((doc) => ProductModel.fromJson(doc.data())).toList(),
-  );
+            event.docs.map((doc) => ProductModel.fromJson(doc.data())).toList(),
+      );
 
   Future<void> getProductsByCategory(String categoryDocId) async {
     _notify(true);
@@ -43,7 +45,8 @@ class ProductsViewModel extends ChangeNotifier {
           .collection(AppConstants.products)
           .doc(cf.id)
           .update({"doc_id": cf.id});
-
+      if (!context.mounted) return;
+      Navigator.pop(context);
       _notify(false);
     } on FirebaseException catch (error) {
       if (!context.mounted) return;
@@ -54,40 +57,9 @@ class ProductsViewModel extends ChangeNotifier {
     }
   }
 
-  updateProduct(ProductModel productModel, BuildContext context) async {
-    try {
-      _notify(true);
-      await FirebaseFirestore.instance
-          .collection(AppConstants.products)
-          .doc(productModel.docId)
-          .update(productModel.toJsonForUpdate());
-
-      _notify(false);
-    } on FirebaseException catch (error) {
-      if (!context.mounted) return;
-      showSneckbar(
-        context: context,
-        message: error.code,
-      );
-    }
-  }
-
-  deleteProduct(String docId, BuildContext context) async {
-    try {
-      _notify(true);
-      await FirebaseFirestore.instance
-          .collection(AppConstants.products)
-          .doc(docId)
-          .delete();
-
-      _notify(false);
-    } on FirebaseException catch (error) {
-      if (!context.mounted) return;
-      showSneckbar(
-        context: context,
-        message: error.code,
-      );
-    }
+  changeValue(String? value) {
+    dropdownValue = value;
+    notifyListeners();
   }
 
   _notify(bool v) {
