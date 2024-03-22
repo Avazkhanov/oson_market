@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "603794065032",
+    "project_id": "oson-market",
+    "storage_bucket": "oson-market.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603794065032:android:b67bbb1a0da7b63b27813d",
+        "android_client_info": {
+          "package_name": "com.example.oson_market"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh8na8Km_5kjW8vLnL5jWHMQXT5auxiIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
