@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
+import 'package:oson_market/screens/routes.dart';
 import 'package:oson_market/utils/extension/extension.dart';
 
 class HomeGrid extends StatelessWidget {
@@ -15,65 +16,79 @@ class HomeGrid extends StatelessWidget {
           color: Theme.of(context).cardTheme.color,
           borderRadius: BorderRadius.circular(15.r)),
       margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15.r),
+        child: Material(
+          child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, RoutesNames.aboutProduct,
+                  arguments: product);
+            },
             borderRadius: BorderRadius.circular(15.r),
-            child: Image.network(product.imageUrl,
-                width: width,
-                height: 120.h, fit: BoxFit.cover),
-          ),
-          SizedBox(height: 10.h),
-          Padding(
-            padding: EdgeInsets.only(left: 15.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product.productName,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontSize: 14.sp),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.network(product.imageUrl,
+                      width: width, height: 105.h, fit: BoxFit.cover),
                 ),
-                Text.rich(
-                  TextSpan(
+                SizedBox(height: 10.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(
-                        text: "Price:  ",
+                      Text(
+                        product.productName,
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!
                             .copyWith(fontSize: 14.sp),
                       ),
-                      TextSpan(
-                        text:
-                            " ${product.monetaryUnit} ${product.price.toString()}",
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontSize: 14.sp,
-                              color: Colors.blue,
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Price:  ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(fontSize: 14.sp),
                             ),
+                            TextSpan(
+                              text:
+                                  " ${product.monetaryUnit} ${product.price.toString()}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                    fontSize: 14.sp,
+                                    color: Colors.blue,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.bookmark_outline,
+                              size: 24.sp,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.bookmark_outline,
-                        size: 24.sp,
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

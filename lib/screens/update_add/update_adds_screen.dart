@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/globals/global_ink.dart';
 import 'package:oson_market/screens/globals/product_textfield.dart';
-import 'package:oson_market/utils/utility_function.dart';
-import 'package:oson_market/view_models/auth_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +21,8 @@ class _UpdateAddScreenState extends State<UpdateAddScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   void initState() {
@@ -31,13 +31,14 @@ class _UpdateAddScreenState extends State<UpdateAddScreen> {
     _descriptionController.text = widget.product.productDescription;
     _categoryController.text = widget.product.categoryId;
     _imageController.text = widget.product.imageUrl;
+    _addressController.text = widget.product.address;
+    _phoneController.text = widget.product.phoneNumber;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var provider = context.watch<ProductsViewModel>();
-    var userID = context.watch<AuthViewModel>().getUser;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -56,21 +57,27 @@ class _UpdateAddScreenState extends State<UpdateAddScreen> {
             children: [
               SizedBox(height: 20.h),
               ProductTextField(
-                  hintText: "Product Name", controller: _nameController),
+                  hintText: "Product Name", controller: _nameController, action: TextInputAction.next,),
               SizedBox(height: 15.h),
               ProductTextField(
                   hintText: "Product Price",
-                  controller: _priceController),
+                  controller: _priceController, action: TextInputAction.next,),
               SizedBox(height: 15.h),
               ProductTextField(
                   hintText: "Description",
-                  controller: _descriptionController),
+                  controller: _descriptionController, action: TextInputAction.next,),
               SizedBox(height: 15.h),
               ProductTextField(
-                  hintText: "Image", controller: _imageController),
+                  hintText: "Image", controller: _imageController, action: TextInputAction.next,),
               SizedBox(height: 15.h),
               ProductTextField(
-                  hintText: "Category", controller: _categoryController),
+                  hintText: "Category", controller: _categoryController, action: TextInputAction.next,),
+              SizedBox(height: 15.h),
+              ProductTextField(
+                hintText: "Category", controller: _addressController, action: TextInputAction.next,),
+              SizedBox(height: 15.h),
+              ProductTextField(
+                hintText: "Category", controller: _phoneController, action: TextInputAction.next,),
               SizedBox(height: 15.h),
               DropdownButtonFormField<String>(
                 hint: Text(

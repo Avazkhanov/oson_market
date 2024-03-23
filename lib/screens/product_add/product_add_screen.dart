@@ -21,6 +21,8 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +46,45 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                   children: [
                     SizedBox(height: 20.h),
                     ProductTextField(
-                        hintText: "Product Name", controller: _nameController),
+                        hintText: "Product Name",
+                        controller: _nameController,
+                        action: TextInputAction.next),
                     SizedBox(height: 15.h),
                     ProductTextField(
-                        hintText: "Product Price",
-                        controller: _priceController),
+                      hintText: "Product Price",
+                      controller: _priceController,
+                      action: TextInputAction.next,
+                    ),
                     SizedBox(height: 15.h),
                     ProductTextField(
-                        hintText: "Description",
-                        controller: _descriptionController),
+                      hintText: "Description",
+                      controller: _descriptionController,
+                      action: TextInputAction.next,
+                    ),
                     SizedBox(height: 15.h),
                     ProductTextField(
-                        hintText: "Image", controller: _imageController),
+                      hintText: "Image",
+                      controller: _imageController,
+                      action: TextInputAction.next,
+                    ),
                     SizedBox(height: 15.h),
                     ProductTextField(
-                        hintText: "Category", controller: _categoryController),
+                      hintText: "Category",
+                      controller: _categoryController,
+                      action: TextInputAction.next,
+                    ),
+                    SizedBox(height: 15.h),
+                    ProductTextField(
+                      hintText: "Enter your address",
+                      controller: _addressController,
+                      action: TextInputAction.next,
+                    ),
+                    SizedBox(height: 15.h),
+                    ProductTextField(
+                      hintText: "Enter your phone number",
+                      controller: _phoneController,
+                      action: TextInputAction.done,
+                    ),
                     SizedBox(height: 15.h),
                     DropdownButtonFormField<String>(
                       hint: Text(
@@ -98,7 +124,12 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                               productDescription: _descriptionController.text,
                               categoryId: "af",
                               userId: userID!.uid,
-                              monetaryUnit: provider.dropdownValue!);
+                              monetaryUnit: provider.dropdownValue!,
+                              countViews: 0,
+                              address: _addressController.text,
+                              phoneNumber: _phoneController.text,
+                              vendor: userID.displayName!
+                          );
                           if (productModel.canInsertProduct()) {
                             provider.insertProducts(productModel, context);
                           } else {
