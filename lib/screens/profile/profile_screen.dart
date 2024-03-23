@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              showDeleteAlert(context: context, isLogOut: true,docId: "");
+              showDeleteAlert(context: context, isLogOut: true,docId: "", useId: user!.uid);
             },
             icon: Icon(Icons.logout, size: 30.sp),
           ),

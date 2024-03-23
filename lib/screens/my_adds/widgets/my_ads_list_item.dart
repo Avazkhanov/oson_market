@@ -3,14 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/diologs/alert_dialog.dart';
+import 'package:oson_market/screens/routes.dart';
+import 'package:oson_market/screens/update_add/update_adds_screen.dart';
 import 'package:oson_market/utils/colors/app_colors.dart';
+import 'package:oson_market/view_models/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 
 class MyAdsListItem extends StatelessWidget {
   const MyAdsListItem({super.key, required this.product});
+
   final ProductModel product;
+
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<AuthViewModel>().getUser;
     return ListTile(
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(50.r),
@@ -29,7 +36,8 @@ class MyAdsListItem extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                showDeleteAlert(context: context,isLogOut: false,docId: product.docId);
+                showDeleteAlert(
+                    context: context, isLogOut: false, docId: product.docId, useId: user!.uid);
               },
               icon: const Icon(
                 CupertinoIcons.delete,
@@ -38,7 +46,7 @@ class MyAdsListItem extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                showDeleteAlert(context: context,isLogOut: false,docId: product.docId);
+                Navigator.pushNamed(context, RoutesNames.update,arguments: product);
               },
               icon: const Icon(
                 Icons.edit,

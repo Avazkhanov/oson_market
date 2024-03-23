@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
-import 'package:oson_market/utils/colors/app_colors.dart';
+import 'package:oson_market/utils/extension/extension.dart';
 
 class HomeGrid extends StatelessWidget {
   const HomeGrid({super.key, required this.product});
@@ -21,7 +21,8 @@ class HomeGrid extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(15.r),
             child: Image.network(product.imageUrl,
-                height: 100.h, fit: BoxFit.fill),
+                width: width,
+                height: 120.h, fit: BoxFit.cover),
           ),
           SizedBox(height: 10.h),
           Padding(
@@ -75,6 +76,5 @@ class HomeGrid extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

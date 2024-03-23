@@ -55,6 +55,28 @@ class ProductModel {
       "monetary_unit": monetaryUnit
     };
   }
+  ProductModel copyWith({
+    String? docId,
+    String? userId,
+    String? productName,
+    String? productDescription,
+    double? price,
+    String? imageUrl,
+    String? categoryId,
+    String? monetaryUnit,
+  }) {
+    return ProductModel(
+      docId: docId?? this.docId,
+      userId: userId?? this.userId,
+      productName: productName?? this.productName,
+      productDescription: productDescription?? this.productDescription,
+      price: price?? this.price,
+      imageUrl: imageUrl?? this.imageUrl,
+      categoryId: categoryId?? this.categoryId,
+      monetaryUnit: monetaryUnit?? this.monetaryUnit,
+    );
+  }
+
 }
 
 extension CanInsert on ProductModel {

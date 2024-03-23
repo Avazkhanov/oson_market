@@ -17,86 +17,94 @@ class HomeScreen extends StatelessWidget {
     User? user = context.watch<AuthViewModel>().getUser;
     var provider = context.watch<ProductsViewModel>();
     return Scaffold(
-      body: StreamBuilder<List<ProductModel>>(stream: provider.listenProducts(), builder: (context,snapshot){
-        if(snapshot.hasError){
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        }
-        if(snapshot.hasData){
-          List<ProductModel> list = snapshot.data as List<ProductModel>;
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                backgroundColor: AppColors.c_162023,
-                pinned: true,
-                expandedHeight: 250.h,
-                title: Text("Welcome ${user?.displayName}",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppStyle.poppinsBold
-                        .copyWith(fontSize: 20.sp, color: AppColors.white)),
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        bottom: 10,
-                        child: Container(
-                          color: AppColors.c_162023,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 22.w, top: 80.h),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Popular",
-                                    style: AppStyle.poppinsBold.copyWith(
-                                        fontSize: 20.sp, color: AppColors.white)),
-                              ],
+      body: StreamBuilder<List<ProductModel>>(
+          stream: provider.listenProducts(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
+            if (snapshot.hasData) {
+              List<ProductModel> list = snapshot.data as List<ProductModel>;
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    backgroundColor: AppColors.c_162023,
+                    pinned: true,
+                    expandedHeight: 250.h,
+                    title: Text("Welcome ${user?.displayName}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppStyle.poppinsBold
+                            .copyWith(fontSize: 20.sp, color: AppColors.white)),
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Stack(
+                        children: [
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 10,
+                            child: Container(
+                              color: AppColors.c_162023,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 22.w, top: 80.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Popular",
+                                        style: AppStyle.poppinsBold.copyWith(
+                                            fontSize: 20.sp,
+                                            color: AppColors.white)),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  )),
+                            ),
+                          ),
+                        ],
                       ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          height: 30.h,
-                          decoration:  BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                              )),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              SliverGrid(
-                gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.72.w,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  childCount: list.length,
+                  SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.72.w,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      childCount: list.length,
                       (context, index) {
-                    var product = list[index];
-                    return HomeGrid(product: product);
-                  },
-                ),
-              )
-            ],
-          );
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      }),
+                        var product = list[index];
+                        return HomeGrid(product: product);
+                      },
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [SizedBox(height: 100.h)],
+                    ),
+                  ),
+                ],
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
-import 'package:oson_market/screens/bottom_bar/widgets/product_textfield.dart';
+import 'package:oson_market/screens/globals/product_textfield.dart';
 import 'package:oson_market/screens/globals/global_ink.dart';
 import 'package:oson_market/utils/utility_function.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';

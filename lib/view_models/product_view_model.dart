@@ -56,6 +56,24 @@ class ProductsViewModel extends ChangeNotifier {
       );
     }
   }
+  updateProduct(ProductModel productModel, BuildContext context) async {
+    try {
+      _notify(true);
+      await FirebaseFirestore.instance
+          .collection(AppConstants.products)
+          .doc(productModel.docId)
+          .update(productModel.toJsonForUpdate());
+      if (!context.mounted) return;
+      Navigator.pop(context);
+      _notify(false);
+    } on FirebaseException catch (error) {
+      if (!context.mounted) return;
+      showSneckbar(
+        context: context,
+        message: error.code,
+      );
+    }
+  }
 
   changeValue(String? value) {
     dropdownValue = value;

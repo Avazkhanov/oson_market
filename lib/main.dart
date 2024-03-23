@@ -37,7 +37,7 @@ Future<void> main() async {
           create: (_) => ProductsViewModel(),
         ),
         ChangeNotifierProvider(
-          create: (_) => MyAddsViewModel(userID: user!.uid),
+          create: (_) => MyAddsViewModel(),
         ),
       ],
       child: const MyApp(),

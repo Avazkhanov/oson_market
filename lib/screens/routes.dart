@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/auth/login/login_screen.dart';
 import 'package:oson_market/screens/auth/signup/sign_up_screen.dart';
 import 'package:oson_market/screens/home/home_screen.dart';
@@ -8,6 +9,7 @@ import 'package:oson_market/screens/product_add/product_add_screen.dart';
 import 'package:oson_market/screens/profile/profile_screen.dart';
 
 import 'package:oson_market/screens/splash/splash_screen.dart';
+import 'package:oson_market/screens/update_add/update_adds_screen.dart';
 
 import 'bottom_bar/bottom_bar_screen.dart';
 
@@ -30,6 +32,9 @@ class AppRoutes {
         return navigate(const ProductAddScreen());
       case RoutesNames.myAdds:
         return navigate(MyAddsScreen(userId: settings.arguments as String));
+      case RoutesNames.update:
+        return navigate(
+            UpdateAddScreen(product: settings.arguments as ProductModel));
       default:
         return navigate(
           const Scaffold(
@@ -54,4 +59,5 @@ class RoutesNames {
   static const String bottomAppBar = '/bottom_app_bar';
   static const String productAdd = '/product_add';
   static const String myAdds = '/my_add';
+  static const String update = '/update';
 }

@@ -11,6 +11,7 @@ showDeleteAlert({
   required BuildContext context,
   required bool isLogOut,
   required String docId,
+  required String useId
 }) {
   showDialog(
       context: context,
@@ -28,7 +29,7 @@ showDeleteAlert({
                 children: [
                   SizedBox(height: 2.h),
                   Text(
-                    isLogOut? "Delete Category" : "Delete Task",
+                    isLogOut? "Log out" : "Delete Add",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   SizedBox(height: 10.h),
@@ -78,7 +79,7 @@ showDeleteAlert({
                               if(isLogOut){
                                 context.read<ProfileViewModel>().logout(context);
                               }else{
-                                context.read<MyAddsViewModel>().deleteProduct(docId, context);
+                                context.read<MyAddsViewModel>().deleteProduct(docId, context,useId);
                               }
                               Navigator.of(context).pop();
                             },

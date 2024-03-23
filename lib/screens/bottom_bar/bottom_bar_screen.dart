@@ -21,7 +21,11 @@ class _BottomBarState extends State<BottomBar> {
     var provider = context.watch<BottomViewModel>();
     return Scaffold(
       extendBody: true,
-      body: provider.screens[provider.currentIndex],
+      body: IndexedStack(
+        children: [
+          provider.screens[provider.currentIndex]
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 10.w,
         color: Theme.of(context).bottomAppBarTheme.color,
@@ -39,7 +43,7 @@ class _BottomBarState extends State<BottomBar> {
             IconButton(
               icon: SvgPicture.asset(
                 AppImages.homeIcon,
-                height: 20.h,
+                height: 25.h,
                 colorFilter: ColorFilter.mode(
                     provider.currentIndex == 0
                         ? Theme.of(context).iconTheme.color!
@@ -54,7 +58,7 @@ class _BottomBarState extends State<BottomBar> {
             IconButton(
               icon: SvgPicture.asset(
                 AppImages.profileIcon,
-                height: 20.h,
+                height: 25.h,
                 colorFilter: ColorFilter.mode(
                     provider.currentIndex == 1
                         ? Theme.of(context).iconTheme.color!

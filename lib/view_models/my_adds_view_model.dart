@@ -5,16 +5,12 @@ import 'package:oson_market/utils/constants/app_constants.dart';
 import 'package:oson_market/utils/utility_function.dart';
 
 class MyAddsViewModel extends ChangeNotifier {
-  MyAddsViewModel({required this.userID}){
-    getUserProducts(userID);
-  }
-  final String userID;
+
 
   bool isLoading = false;
   List<ProductModel> products = [];
 
   Future<List<ProductModel>> getUserProducts(String userID) async {
-    print("loading");
     await FirebaseFirestore.instance
         .collection(AppConstants.products)
         .where("user_id", isEqualTo: userID)
@@ -22,30 +18,13 @@ class MyAddsViewModel extends ChangeNotifier {
         .then((snapshot) {
       products =
           snapshot.docs.map((e) => ProductModel.fromJson(e.data())).toList();
-      print(products);
     });
     return products;
   }
 
-  updateProduct(ProductModel productModel, BuildContext context) async {
-    try {
-      _notify(true);
-      await FirebaseFirestore.instance
-          .collection(AppConstants.products)
-          .doc(productModel.docId)
-          .update(productModel.toJsonForUpdate());
 
-      _notify(false);
-    } on FirebaseException catch (error) {
-      if (!context.mounted) return;
-      showSneckbar(
-        context: context,
-        message: error.code,
-      );
-    }
-  }
 
-  deleteProduct(String docId, BuildContext context) async {
+  deleteProduct(String docId, BuildContext context,String userID) async {
     try {
       _notify(true);
       await FirebaseFirestore.instance
