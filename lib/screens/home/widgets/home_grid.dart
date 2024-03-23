@@ -76,7 +76,7 @@ class HomeGrid extends StatelessWidget {
                           IconButton(
                             onPressed: () {},
                             icon: Icon(
-                              Icons.bookmark_outline,
+                              Icons.favorite_border,
                               size: 24.sp,
                             ),
                           ),

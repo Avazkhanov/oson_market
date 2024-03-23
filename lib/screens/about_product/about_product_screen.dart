@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
+import 'package:oson_market/screens/about_product/widgets/about_ink.dart';
+import 'package:oson_market/screens/about_product/widgets/about_item.dart';
+import 'package:oson_market/screens/globals/global_ink.dart';
 import 'package:oson_market/utils/colors/app_colors.dart';
 import 'package:oson_market/utils/extension/extension.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutProductScreen extends StatefulWidget {
   const AboutProductScreen({super.key, required this.product});
@@ -37,6 +41,12 @@ class _AboutProductScreenState extends State<AboutProductScreen> {
                     color: top == 56.0 ? AppColors.white : AppColors.black,
                   ),
                 ),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.favorite_border, size: 24.sp),
+                  ),
+                ],
                 pinned: true,
                 flexibleSpace: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -68,86 +78,40 @@ class _AboutProductScreenState extends State<AboutProductScreen> {
               ),
             ];
           },
-          body: Container(
-            padding: EdgeInsets.only(top: 15.h),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(
-                    15.r,
-                  ),
-                ),
-                color: Theme.of(context).scaffoldBackgroundColor),
-            child: ListView(
+          body: AboutItem(product: widget.product),
+        ),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Divider(),
+          SizedBox(
+            height: 50.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 22.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 15.h),
-                      Text("Name: ${widget.product.productName}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontSize: 24.sp)),
-                      SizedBox(height: 10.h),
-                      Text(
-                        "Description:  ${widget.product.productDescription}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 24.sp),
-                      ),
-                      SizedBox(height: 10.h),
-                      Text.rich(TextSpan(children: [
-                        TextSpan(
-                          text: "Price: ",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontSize: 24.sp),
-                        ),
-                        TextSpan(
-                          text:
-                          "${widget.product.price} ${widget.product.monetaryUnit}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(fontSize: 24.sp, color: AppColors.c_1317DD),
-                        ),
-                      ])),
-                      SizedBox(height: 10.h),
-                      Text(
-                        "Vendor: ${widget.product.vendor}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 24.sp),
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        "Address: ${widget.product.address}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 24.sp),
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        "Phone number for contact: ${widget.product.phoneNumber}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 24.sp),
-                      ),
-
-                    ],
-                  ),
-                )
+                AboutInk(
+                  onTap: () async {
+                    String uri =
+                        'sms:${widget.product.phoneNumber}?body=${Uri.encodeComponent("Assalomu alaykum ${widget.product.vendor} men oson marketga joylashtirgan mahsulotingiz bo'yicha yozayotgan edim menga bog'lana olasizmi ?")}';
+                    await launchUrl(Uri.parse(uri));
+                  },
+                  text: "Contact by SMS",
+                ),
+                AboutInk(
+                  onTap: () async {
+                    Uri uri = Uri(
+                      scheme: 'tel',
+                      path: widget.product.phoneNumber,
+                    );
+                    await launchUrl(uri);
+                  },
+                  text: "Contact by Phone",
+                ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
