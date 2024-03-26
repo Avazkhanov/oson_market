@@ -27,6 +27,7 @@ dependencies:
   flutter_facebook_auth: ^3.5.0
   lottie: ^3.1.0
   url_launcher: ^6.2.4
+  carousel_slider: ^4.2.1
 
 
 

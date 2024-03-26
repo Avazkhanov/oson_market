@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/routes.dart';
 import 'package:oson_market/utils/extension/extension.dart';
+import 'package:oson_market/view_models/product_view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeGrid extends StatelessWidget {
   const HomeGrid({super.key, required this.product});
@@ -21,6 +23,10 @@ class HomeGrid extends StatelessWidget {
         child: Material(
           child: InkWell(
             onTap: () {
+              int count = product.countViews + 1;
+              var temp = product.copyWith(countViews: count);
+              context.read<ProductsViewModel>().updateProduct(temp, context,false);
+              print(product.countViews);
               Navigator.pushNamed(context, RoutesNames.aboutProduct,
                   arguments: product);
             },

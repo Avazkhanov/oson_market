@@ -34,6 +34,18 @@ class ProductsViewModel extends ChangeNotifier {
     _notify(false);
   }
 
+  Future<List<ProductModel>> getPopularProducts() async {
+    await FirebaseFirestore.instance
+        .collection(AppConstants.products)
+        .where("count_views", isGreaterThan: 10)
+        .get()
+        .then((snapshot) {
+      categoryProduct =
+          snapshot.docs.map((e) => ProductModel.fromJson(e.data())).toList();
+    });
+    return categoryProduct;
+  }
+
   insertProducts(ProductModel productModel, BuildContext context) async {
     try {
       _notify(true);
@@ -56,15 +68,21 @@ class ProductsViewModel extends ChangeNotifier {
       );
     }
   }
-  updateProduct(ProductModel productModel, BuildContext context) async {
+
+  updateProduct(
+      ProductModel productModel, BuildContext context, bool hasPop) async {
     try {
+      print("kirdi");
       _notify(true);
       await FirebaseFirestore.instance
           .collection(AppConstants.products)
           .doc(productModel.docId)
           .update(productModel.toJsonForUpdate());
       if (!context.mounted) return;
-      Navigator.pop(context);
+      if (hasPop) {
+        Navigator.pop(context);
+      }
+      print("kirdi");
       _notify(false);
     } on FirebaseException catch (error) {
       if (!context.mounted) return;

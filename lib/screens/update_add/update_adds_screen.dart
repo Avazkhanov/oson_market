@@ -115,7 +115,7 @@ class _UpdateAddScreenState extends State<UpdateAddScreen> {
                       categoryId: _categoryController.text,
                       monetaryUnit: provider.dropdownValue
                     );
-                    provider.updateProduct(temp, context);
+                    provider.updateProduct(temp, context,true);
                   },
                   text: "Save")
             ],

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/diologs/alert_dialog.dart';
 import 'package:oson_market/screens/routes.dart';
-import 'package:oson_market/screens/update_add/update_adds_screen.dart';
 import 'package:oson_market/utils/colors/app_colors.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';
 import 'package:provider/provider.dart';

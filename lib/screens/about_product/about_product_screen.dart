@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/about_product/widgets/about_ink.dart';
 import 'package:oson_market/screens/about_product/widgets/about_item.dart';
-import 'package:oson_market/screens/globals/global_ink.dart';
 import 'package:oson_market/utils/colors/app_colors.dart';
 import 'package:oson_market/utils/extension/extension.dart';
+import 'package:oson_market/view_models/product_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutProductScreen extends StatefulWidget {
@@ -111,6 +112,7 @@ class _AboutProductScreenState extends State<AboutProductScreen> {
               ],
             ),
           ),
+          SizedBox(height: 10.h)
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/home/widgets/home_grid.dart';
+import 'package:oson_market/screens/home/widgets/popular_item.dart';
 import 'package:oson_market/utils/colors/app_colors.dart';
 import 'package:oson_market/utils/styles/app_style.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';
@@ -14,11 +15,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? user = context.watch<AuthViewModel>().getUser;
-    var provider = context.watch<ProductsViewModel>();
+    User? user = context
+        .watch<AuthViewModel>()
+        .getUser;
     return Scaffold(
       body: StreamBuilder<List<ProductModel>>(
-          stream: provider.listenProducts(),
+          stream: context.watch<ProductsViewModel>().listenProducts(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -32,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                   SliverAppBar(
                     backgroundColor: AppColors.c_162023,
                     pinned: true,
-                    expandedHeight: 250.h,
+                    expandedHeight: 300.h,
                     title: Text("Welcome ${user?.displayName}",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -42,24 +44,23 @@ class HomeScreen extends StatelessWidget {
                       background: Stack(
                         children: [
                           Positioned(
-                            top: 0,
+                            top: 70.h,
                             right: 0,
                             left: 0,
                             bottom: 10,
-                            child: Container(
-                              color: AppColors.c_162023,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 22.w, top: 80.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Popular",
-                                        style: AppStyle.poppinsBold.copyWith(
-                                            fontSize: 20.sp,
-                                            color: AppColors.white)),
-                                  ],
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15.w),
+                                  child: Text("Popular",
+                                      style: AppStyle.poppinsBold.copyWith(
+                                          fontSize: 20.sp,
+                                          color: AppColors.white)),
                                 ),
-                              ),
+                                SizedBox(height: 10.h),
+                                const PopularItem(),
+                              ],
                             ),
                           ),
                           Positioned(
@@ -69,7 +70,9 @@ class HomeScreen extends StatelessWidget {
                             child: Container(
                               height: 30.h,
                               decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
+                                  color: Theme
+                                      .of(context)
+                                      .cardColor,
                                   borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(20),
                                     topRight: Radius.circular(20),
@@ -87,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     delegate: SliverChildBuilderDelegate(
                       childCount: list.length,
-                      (context, index) {
+                          (context, index) {
                         var product = list[index];
                         return HomeGrid(product: product);
                       },
