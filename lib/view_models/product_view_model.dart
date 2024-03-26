@@ -34,6 +34,7 @@ class ProductsViewModel extends ChangeNotifier {
     _notify(false);
   }
 
+
   Future<List<ProductModel>> getPopularProducts() async {
     await FirebaseFirestore.instance
         .collection(AppConstants.products)
