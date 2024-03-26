@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oson_market/data/models/notification_model.dart';
 import 'package:oson_market/data/models/products_model.dart';
+import 'package:oson_market/services/local_notification_service.dart';
 import 'package:oson_market/utils/constants/app_constants.dart';
 import 'package:oson_market/utils/utility_function.dart';
+import 'package:oson_market/view_models/notification_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ProductsViewModel extends ChangeNotifier {
   bool _isLoading = false;
@@ -59,6 +63,22 @@ class ProductsViewModel extends ChangeNotifier {
           .doc(cf.id)
           .update({"doc_id": cf.id});
       if (!context.mounted) return;
+      debugPrint("Product Model DocId ${cf.id}");
+
+      NotificationModel notif = NotificationModel(
+        id: DateTime.now().millisecondsSinceEpoch~/10000,
+        title: "Added successfully",
+        productID: cf.id
+      );
+      LocalNotificationService.localNotificationService
+          .showNotification(
+        title: notif.title,
+        body: productModel.productName,
+        id: notif.id,
+        productModel: productModel,
+      );
+      debugPrint("Notification Model ${notif.title}");
+      context.read<NotificationViewModel>().addToNotification(notif);
       Navigator.pop(context);
       _notify(false);
     } on FirebaseException catch (error) {
@@ -73,7 +93,6 @@ class ProductsViewModel extends ChangeNotifier {
   updateProduct(
       ProductModel productModel, BuildContext context, bool hasPop) async {
     try {
-      print("kirdi");
       _notify(true);
       await FirebaseFirestore.instance
           .collection(AppConstants.products)
@@ -83,7 +102,6 @@ class ProductsViewModel extends ChangeNotifier {
       if (hasPop) {
         Navigator.pop(context);
       }
-      print("kirdi");
       _notify(false);
     } on FirebaseException catch (error) {
       if (!context.mounted) return;

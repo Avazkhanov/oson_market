@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oson_market/data/models/notification_model.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/routes.dart';
+import 'package:oson_market/services/local_notification_service.dart';
 import 'package:oson_market/utils/extension/extension.dart';
+import 'package:oson_market/view_models/notification_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +16,7 @@ class HomeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<NotificationModel> provider =context.watch<NotificationViewModel>().notificationList;
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).cardTheme.color,
@@ -25,8 +29,19 @@ class HomeGrid extends StatelessWidget {
             onTap: () {
               int count = product.countViews + 1;
               var temp = product.copyWith(countViews: count);
-              context.read<ProductsViewModel>().updateProduct(temp, context,false);
-              print(product.countViews);
+              context
+                  .read<ProductsViewModel>()
+                  .updateProduct(temp, context, false);
+
+              for (var i in provider) {
+                print("Notification  ${i.productID}");
+                print("Product  ${product.docId}");
+                if (i.productID == product.docId) {
+                  context.read<NotificationViewModel>().removeFromList(i);
+                  LocalNotificationService.localNotificationService.cancelNotification(i.id);
+                }
+              }
+
               Navigator.pushNamed(context, RoutesNames.aboutProduct,
                   arguments: product);
             },

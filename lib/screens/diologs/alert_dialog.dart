@@ -21,7 +21,7 @@ showDeleteAlert({
           child: StatefulBuilder(builder: (context, setState) {
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-              margin: EdgeInsets.symmetric(vertical: 225.h, horizontal: 20.w),
+              margin: EdgeInsets.symmetric(vertical: 220.h, horizontal: 20.w),
               decoration: BoxDecoration(
                   borderRadius: BorderRadiusDirectional.circular(16.r),
                   color: Theme.of(context).bottomAppBarTheme.color),

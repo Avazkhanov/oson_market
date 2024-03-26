@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oson_market/data/models/notification_model.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/globals/product_textfield.dart';
 import 'package:oson_market/screens/globals/global_ink.dart';
+import 'package:oson_market/services/local_notification_service.dart';
 import 'package:oson_market/utils/utility_function.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';
+import 'package:oson_market/view_models/notification_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -128,10 +131,10 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                               countViews: 0,
                               address: _addressController.text,
                               phoneNumber: _phoneController.text,
-                              vendor: userID.displayName!
-                          );
+                              vendor: userID.displayName!);
                           if (productModel.canInsertProduct()) {
                             provider.insertProducts(productModel, context);
+
                           } else {
                             showSneckbar(
                                 context: context,
