@@ -39,6 +39,7 @@ class HomeGrid extends StatelessWidget {
                 if (i.productID == product.docId) {
                   context.read<NotificationViewModel>().removeFromList(i);
                   LocalNotificationService.localNotificationService.cancelNotification(i.id);
+                  break;
                 }
               }
 
