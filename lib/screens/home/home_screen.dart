@@ -52,15 +52,17 @@ class HomeScreen extends StatelessWidget {
                             right: 5.w,
                             child: Container(
                               decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red
-                              ),
+                                  shape: BoxShape.circle, color: Colors.red),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 5.w, vertical: 5.h),
                               child: Text(
-                                  pushNotification.pushNotifications.length
-                                      .toString(),
-                                  style: AppStyle.poppinsBold.copyWith(fontSize: 12.sp,color: AppColors.white)),
+                                  pushNotification.pushNotifications.length < 9
+                                      ? pushNotification
+                                          .pushNotifications.length
+                                          .toString()
+                                      : "9+",
+                                  style: AppStyle.poppinsBold.copyWith(
+                                      fontSize: 12.sp, color: AppColors.white)),
                             ),
                           ),
                         ],
