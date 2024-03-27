@@ -91,7 +91,7 @@ class LocalNotificationService {
     required String title,
     required String body,
     required int id,
-    required ProductModel productModel,
+    ProductModel? productModel,
   }) {
     flutterLocalNotificationsPlugin.show(
       id,
@@ -114,9 +114,9 @@ class LocalNotificationService {
           interruptionLevel: InterruptionLevel.active,
         ),
       ),
-      payload: jsonEncode(productModel.toJson()),
+      payload: productModel!= null? jsonEncode(productModel.toJson()):null,
     );
-    debugPrint("CURRENT NOTIFICATION PRODUCT: ${productModel.productName}");
+    debugPrint("CURRENT NOTIFICATION PRODUCT: ${productModel?.productName}");
     debugPrint("CURRENT NOTIFICATION ID:$id");
   }
 

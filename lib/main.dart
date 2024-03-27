@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/screens/routes.dart';
@@ -17,13 +17,20 @@ import 'package:oson_market/view_models/product_view_model.dart';
 import 'package:oson_market/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  debugPrint(
+      "BACKGROUND MODE DA PUSH NOTIFICATION KELDI:${message.notification!.title}");
+}
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureLocalTimeZone();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  User? user = FirebaseAuth.instance.currentUser;
+  FirebaseMessaging.instance.subscribeToTopic("news");
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(
     MultiProvider(
       providers: [
@@ -46,17 +53,16 @@ Future<void> main() async {
           create: (_) => NotificationViewModel(),
         ),
       ],
-      child: const MyApp(),
+      child:  MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
     LocalNotificationService.localNotificationService.init(navigatorKey);
     return ScreenUtilInit(
       designSize: const Size(375, 812),

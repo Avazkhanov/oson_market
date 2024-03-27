@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/screens/routes.dart';
@@ -18,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     User? user = FirebaseAuth.instance.currentUser;
     if (user!= null) {
+      FirebaseMessaging.instance.subscribeToTopic("news");
       Navigator.pushReplacementNamed(context, RoutesNames.bottomAppBar);
     } else {
       Navigator.pushReplacementNamed(context, RoutesNames.login);

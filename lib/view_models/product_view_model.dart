@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oson_market/data/api_provider/api_provider.dart';
 import 'package:oson_market/data/models/notification_model.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/services/local_notification_service.dart';
@@ -63,7 +64,6 @@ class ProductsViewModel extends ChangeNotifier {
           .doc(cf.id)
           .update({"doc_id": cf.id});
       if (!context.mounted) return;
-      debugPrint("Product Model DocId ${cf.id}");
 
       NotificationModel notif = NotificationModel(
         id: DateTime.now().millisecondsSinceEpoch~/10000,
@@ -77,7 +77,7 @@ class ProductsViewModel extends ChangeNotifier {
         id: notif.id,
         productModel: productModel,
       );
-      debugPrint("Notification Model ${notif.title}");
+      ApiProvider.sendNotificationToUsers(title: "Added new product! ", body: productModel.productName,topicName: "news");
       context.read<NotificationViewModel>().addToNotification(notif);
       Navigator.pop(context);
       _notify(false);

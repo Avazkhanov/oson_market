@@ -8,7 +8,7 @@ class DarkTheme{
     cardTheme: CardTheme(
         color: AppColors.c_363636
     ),
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
     iconTheme: const IconThemeData(color: AppColors.white),
     drawerTheme: const DrawerThemeData(backgroundColor: AppColors.c_363636),
     scaffoldBackgroundColor: AppColors.black,
@@ -25,7 +25,7 @@ class DarkTheme{
     sliderTheme: SliderThemeData(
 
     ),
-    cardColor: AppColors.black,
+    cardColor: AppColors.white,
     textTheme: TextTheme(
       displayLarge: AppStyle.poppinsBold
           .copyWith(fontSize: 57, color: AppColors.white),
