@@ -6,6 +6,7 @@ import 'package:oson_market/screens/auth/login/login_screen.dart';
 import 'package:oson_market/screens/auth/signup/sign_up_screen.dart';
 import 'package:oson_market/screens/home/home_screen.dart';
 import 'package:oson_market/screens/my_adds/my_adds_screen.dart';
+import 'package:oson_market/screens/notification_screen/notification_screen.dart';
 import 'package:oson_market/screens/product_add/product_add_screen.dart';
 import 'package:oson_market/screens/profile/profile_screen.dart';
 
@@ -39,7 +40,8 @@ class AppRoutes {
       case RoutesNames.aboutProduct:
         return navigate(
             AboutProductScreen(product: settings.arguments as ProductModel));
-
+      case RoutesNames.notification:
+        return navigate(const NotificationScreen());
       default:
         return navigate(
           const Scaffold(
@@ -66,4 +68,5 @@ class RoutesNames {
   static const String myAdds = '/my_add';
   static const String update = '/update';
   static const String aboutProduct = '/about_product';
+  static const String notification = '/notification';
 }

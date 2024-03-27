@@ -15,13 +15,13 @@ import 'package:oson_market/view_models/my_adds_view_model.dart';
 import 'package:oson_market/view_models/notification_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
 import 'package:oson_market/view_models/profile_view_model.dart';
+import 'package:oson_market/view_models/push_notification_view_model.dart';
 import 'package:provider/provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint(
       "BACKGROUND MODE DA PUSH NOTIFICATION KELDI:${message.notification!.title}");
 }
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,15 +52,20 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (_) => NotificationViewModel(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => PushNotificationViewModel(),
+        ),
       ],
-      child:  MyApp(),
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
+
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     LocalNotificationService.localNotificationService.init(navigatorKey);

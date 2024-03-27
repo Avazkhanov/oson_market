@@ -1,68 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/data/models/products_model.dart';
 import 'package:oson_market/screens/home/widgets/home_grid.dart';
 import 'package:oson_market/screens/home/widgets/popular_item.dart';
-import 'package:oson_market/services/local_notification_service.dart';
+import 'package:oson_market/screens/routes.dart';
 import 'package:oson_market/utils/colors/app_colors.dart';
 import 'package:oson_market/utils/styles/app_style.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
+import 'package:oson_market/view_models/push_notification_view_model.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  String fcmToken = "";
-
-  void init() async {
-    fcmToken = await FirebaseMessaging.instance.getToken() ?? "";
-    debugPrint("FCM TOKEN:$fcmToken");
-    final token = await FirebaseMessaging.instance.getAPNSToken();
-    debugPrint("getAPNSToken : ${token.toString()}");
-    LocalNotificationService.localNotificationService;
-    //Foreground
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage remoteMessage) {
-        if (remoteMessage.notification != null) {
-          LocalNotificationService().showNotification(
-            title: remoteMessage.notification!.title!,
-            body: remoteMessage.notification!.body!,
-            id: DateTime.now().millisecondsSinceEpoch~/10000,
-          );
-
-          debugPrint(
-              "FOREGROUND NOTIFICATION:${remoteMessage.notification!.title}");
-        }
-      },
-    );
-    //Background
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remoteMessage) {
-      debugPrint("ON MESSAGE OPENED APP:${remoteMessage.notification!.title}");
-    });
-    // Terminated
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        debugPrint("TERMINATED:${message.notification?.title}");
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    init();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    var pushNotification = context.watch<PushNotificationViewModel>();
     User? user = context.watch<AuthViewModel>().getUser;
     return Scaffold(
       body: StreamBuilder<List<ProductModel>>(
@@ -79,14 +34,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 slivers: [
                   SliverAppBar(
                     actions: [
-
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.notifications,
-                          size: 24.sp,
-                          color: AppColors.white,
-                        ),
+                      Stack(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, RoutesNames.notification);
+                            },
+                            icon: Icon(
+                              Icons.notifications,
+                              size: 24.sp,
+                              color: AppColors.white,
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 5.w,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 5.h),
+                              child: Text(
+                                  pushNotification.pushNotifications.length
+                                      .toString(),
+                                  style: AppStyle.poppinsBold.copyWith(fontSize: 12.sp,color: AppColors.white)),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(width: 10.w)
                     ],

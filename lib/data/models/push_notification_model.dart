@@ -1,7 +1,7 @@
 class PushNotificationModel {
   final String title;
   final String body;
-  final String id;
+  final int id;
 
   PushNotificationModel({
     required this.title,

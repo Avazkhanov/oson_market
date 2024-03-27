@@ -9,11 +9,6 @@ class PushNotificationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  removePushNotification(PushNotificationModel model) {
-    pushNotifications.remove(model);
-    notifyListeners();
-  }
-
   clearPushNotifications() {
     pushNotifications.clear();
     notifyListeners();
