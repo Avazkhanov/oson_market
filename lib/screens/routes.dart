@@ -5,13 +5,14 @@ import 'package:oson_market/screens/about_product/about_product_screen.dart';
 import 'package:oson_market/screens/auth/login/login_screen.dart';
 import 'package:oson_market/screens/auth/signup/sign_up_screen.dart';
 import 'package:oson_market/screens/home/home_screen.dart';
-import 'package:oson_market/screens/my_adds/my_adds_screen.dart';
 import 'package:oson_market/screens/notification_screen/notification_screen.dart';
 import 'package:oson_market/screens/product_add/product_add_screen.dart';
-import 'package:oson_market/screens/profile/profile_screen.dart';
+import 'package:oson_market/screens/profile/my_adds/my_adds_screen.dart';
+import 'package:oson_market/screens/profile/permissions/permissions_screen.dart';
+import 'package:oson_market/screens/profile/profile_screen/profile_screen.dart';
+import 'package:oson_market/screens/profile/update_add/update_adds_screen.dart';
 
 import 'package:oson_market/screens/splash/splash_screen.dart';
-import 'package:oson_market/screens/update_add/update_adds_screen.dart';
 
 import 'bottom_bar/bottom_bar_screen.dart';
 
@@ -42,6 +43,8 @@ class AppRoutes {
             AboutProductScreen(product: settings.arguments as ProductModel));
       case RoutesNames.notification:
         return navigate(const NotificationScreen());
+      case RoutesNames.permission:
+        return navigate(const PermissionsScreen());
       default:
         return navigate(
           const Scaffold(
@@ -69,4 +72,5 @@ class RoutesNames {
   static const String update = '/update';
   static const String aboutProduct = '/about_product';
   static const String notification = '/notification';
+  static const String permission = '/permission';
 }

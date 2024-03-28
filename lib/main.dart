@@ -11,6 +11,7 @@ import 'package:oson_market/services/local_notification_service.dart';
 import 'package:oson_market/utils/theme/theme_data.dart';
 import 'package:oson_market/view_models/auth_view_model.dart';
 import 'package:oson_market/view_models/bottom_view_model.dart';
+import 'package:oson_market/view_models/image_view_model.dart';
 import 'package:oson_market/view_models/my_adds_view_model.dart';
 import 'package:oson_market/view_models/notification_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
@@ -54,6 +55,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => PushNotificationViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ImageViewModel(),
         ),
       ],
       child: MyApp(),

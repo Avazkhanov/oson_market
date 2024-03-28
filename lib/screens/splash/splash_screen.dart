@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oson_market/screens/routes.dart';
 import 'package:oson_market/utils/extension/extension.dart';
 import 'package:oson_market/utils/images/app_images.dart';
+import 'package:oson_market/utils/permissions_utils/permissions_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
       FirebaseMessaging.instance.subscribeToTopic("news");
       Navigator.pushReplacementNamed(context, RoutesNames.bottomAppBar);
     } else {
+      AppPermissions.getImportantPermissions();
       Navigator.pushReplacementNamed(context, RoutesNames.login);
     }
   }

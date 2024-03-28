@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oson_market/data/models/products_model.dart';
-import 'package:oson_market/screens/my_adds/widgets/my_ads_list_item.dart';
+import 'package:oson_market/screens/profile/my_adds/widgets/my_ads_list_item.dart';
 import 'package:oson_market/utils/images/app_images.dart';
 import 'package:oson_market/view_models/my_adds_view_model.dart';
 import 'package:provider/provider.dart';

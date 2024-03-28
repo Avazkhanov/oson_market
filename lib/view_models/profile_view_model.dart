@@ -1,6 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:oson_market/screens/profile/profile_screen/widgets/take_image.dart';
 import 'package:oson_market/screens/routes.dart';
 
 class ProfileViewModel extends ChangeNotifier {
@@ -33,6 +34,8 @@ class ProfileViewModel extends ChangeNotifier {
     if(!context.mounted) return;
     Navigator.pop(context);
   }
+
+
 
   _notify(bool v) {
     isLoading = v;

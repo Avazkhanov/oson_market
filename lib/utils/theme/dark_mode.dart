@@ -9,6 +9,7 @@ class DarkTheme{
         color: AppColors.c_363636
     ),
     brightness: Brightness.dark,
+    dividerColor: AppColors.white,
     iconTheme: const IconThemeData(color: AppColors.white),
     drawerTheme: const DrawerThemeData(backgroundColor: AppColors.c_363636),
     scaffoldBackgroundColor: AppColors.black,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oson_market/screens/home/home_screen.dart';
-import 'package:oson_market/screens/profile/profile_screen.dart';
+import 'package:oson_market/screens/profile/profile_screen/profile_screen.dart';
 
 class BottomViewModel with ChangeNotifier {
   int _currentIndex = 0;

@@ -1,37 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oson_market/data/models/notification_model.dart';
 import 'package:oson_market/data/models/products_model.dart';
-import 'package:oson_market/screens/globals/product_textfield.dart';
 import 'package:oson_market/screens/globals/global_ink.dart';
+import 'package:oson_market/screens/globals/product_textfield.dart';
 import 'package:oson_market/screens/profile/profile_screen/widgets/take_image.dart';
-import 'package:oson_market/services/local_notification_service.dart';
-import 'package:oson_market/utils/utility_function.dart';
-import 'package:oson_market/view_models/auth_view_model.dart';
-import 'package:oson_market/view_models/notification_view_model.dart';
 import 'package:oson_market/view_models/product_view_model.dart';
 import 'package:provider/provider.dart';
 
-class ProductAddScreen extends StatefulWidget {
-  const ProductAddScreen({super.key});
+class UpdateAddScreen extends StatefulWidget {
+  const UpdateAddScreen({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
-  State<ProductAddScreen> createState() => _ProductAddScreenState();
+  State<UpdateAddScreen> createState() => _UpdateAddScreenState();
 }
 
-class _ProductAddScreenState extends State<ProductAddScreen> {
+class _UpdateAddScreenState extends State<UpdateAddScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  String _imageUrl = "";
+  String _imageUrl = '';
+
+  @override
+  void initState() {
+    _nameController.text = widget.product.productName;
+    _priceController.text = widget.product.price.toString();
+    _descriptionController.text = widget.product.productDescription;
+    _categoryController.text = widget.product.categoryId;
+    _imageController.text = widget.product.imageUrl;
+    _addressController.text = widget.product.address;
+    _phoneController.text = widget.product.phoneNumber;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var provider = context.watch<ProductsViewModel>();
-    var userID = context.watch<AuthViewModel>().getUser;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -79,22 +88,21 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                 setState(() {});
                               });
                         },
-                        child: _imageUrl.isEmpty
-                            ? Icon(Icons.add_a_photo_outlined, size: 60.sp)
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(15.r),
-                                child: Image.network(
-                                  _imageUrl,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.r),
+                          child: Image.network(
+                            _imageUrl.isEmpty?widget.product.imageUrl:_imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 20.h),
                     ProductTextField(
-                        hintText: "Product Name",
-                        controller: _nameController,
-                        action: TextInputAction.next),
+                      hintText: "Product Name",
+                      controller: _nameController,
+                      action: TextInputAction.next,
+                    ),
                     SizedBox(height: 15.h),
                     ProductTextField(
                       hintText: "Product Price",
@@ -115,15 +123,15 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                     ),
                     SizedBox(height: 15.h),
                     ProductTextField(
-                      hintText: "Enter your address",
+                      hintText: "Category",
                       controller: _addressController,
                       action: TextInputAction.next,
                     ),
                     SizedBox(height: 15.h),
                     ProductTextField(
-                      hintText: "Enter your phone number",
+                      hintText: "Category",
                       controller: _phoneController,
-                      action: TextInputAction.done,
+                      action: TextInputAction.next,
                     ),
                     SizedBox(height: 15.h),
                     DropdownButtonFormField<String>(
@@ -155,30 +163,17 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                     SizedBox(height: 15.h),
                     GlobalInk(
                         onTap: () {
-                          ProductModel productModel = ProductModel(
-                              price: double.parse(_priceController.text),
-                              imageUrl: _imageUrl,
+                          var temp = widget.product.copyWith(
+                            imageUrl: _imageUrl,
                               productName: _nameController.text,
-                              docId: "",
+                              price: double.parse(_priceController.text),
                               productDescription: _descriptionController.text,
-                              categoryId: "af",
-                              userId: userID!.uid,
-                              monetaryUnit: provider.dropdownValue!,
-                              countViews: 0,
-                              address: _addressController.text,
-                              phoneNumber: _phoneController.text,
-                              vendor: userID.displayName!);
-                          if (productModel.canInsertProduct()) {
-                            provider.insertProducts(productModel, context);
-                          } else {
-                            showSneckbar(
-                                context: context,
-                                message: "fill in all fields");
-                          }
+                              categoryId: _categoryController.text,
+                              monetaryUnit: provider.dropdownValue);
+                          provider.updateProduct(temp, context, true);
                         },
                         text: "Save"),
                     SizedBox(height: 20.h),
-
                   ],
                 ),
               ),

@@ -6,7 +6,7 @@ import 'package:oson_market/utils/styles/app_style.dart';
 class WhiteTheme{
   static final whiteMode = ThemeData(
       scaffoldBackgroundColor: AppColors.white,
-
+      dividerColor: AppColors.black,
       brightness: Brightness.light,
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.white,
